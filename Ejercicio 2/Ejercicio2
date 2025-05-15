@@ -1,0 +1,19 @@
+			; Calcular factorial de X (por ejemplo, X = 5)
+			; Resultado esperado: 5! = 120
+
+			MOV		R0, #5			; R0 = X (número a calcular factorial)
+			MOV		R1, #1			; R1 = acumulador del factorial
+			MOV		R2, #1			; R2 = contador (i = 1)
+
+Loop
+			CMP		R2, R0			; mientras i <= X
+			BGT		End_Loop
+
+			MUL		R1, R1, R2		; R1 = R1 * i
+			ADD		R2, R2, #1		; i++
+
+			B		Loop
+
+End_Loop
+			; R1 contiene el factorial calculado
+			MOV		R3, R1			; Copiar resultado a R3 para visualización
