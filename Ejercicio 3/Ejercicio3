@@ -1,0 +1,46 @@
+		;		Dirección 0x1000 contiene el valor de la tecla presionada
+		;		Dirección 0x2000 contiene la posición actual del sprite
+		
+		MOV		R0, #0x1000		; R0 = dirección del teclado (input)
+		MOV		R1, #0x2000		; R1 = dirección del contador (posición del sprite)
+		
+		;		Inicializar el contador con valor 0 (posición inicial)
+		MOV		R2, #0
+		STR		R2, [R1]
+		
+Loop
+		;		Leer la tecla actual desde la dirección 0x1000
+		LDR		R3, [R0]
+		
+		;		Comparar con valor de tecla Flecha Arriba: 0xE048
+		MOV		R4, #0xE000
+		ADD		R4, R4, #0x48
+		CMP		R3, R4
+		BEQ		Arriba
+		
+		;		Comparar con valor de tecla Flecha Abajo: 0xE050
+		MOV		R4, #0xE000
+		ADD		R4, R4, #0x50
+		CMP		R3, R4
+		BEQ		Abajo
+		
+		;		Si no es ninguna tecla válida, saltar a fin de iteración
+		B		Continue
+		
+Arriba
+		;		Aumentar el contador
+		LDR		R5, [R1]		; R5 = contador actual
+		ADD		R5, R5, #1
+		STR		R5, [R1]		; Guardar nuevo valor
+		B		Continue
+		
+Abajo
+		;		Disminuir el contador
+		LDR		R5, [R1]
+		SUB		R5, R5, #1
+		STR		R5, [R1]
+		B		Continue
+		
+Continue
+		;		Bucle infinito para seguir leyendo teclas
+		B		Loop
